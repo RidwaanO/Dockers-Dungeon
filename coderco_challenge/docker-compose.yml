@@ -23,3 +23,6 @@ redis-data:
     depends_on:
       redis:
         condition: service_healthy  # Ensures Redis is healthy before starting Flask
+    enviroment: 
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
