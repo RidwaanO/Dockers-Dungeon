@@ -1,0 +1,22 @@
+services:
+  redis:
+    build:
+      context: .
+      dockerfile: Dockerfile.redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.flask
+    ports:
+      - "5002:5002"
+    depends_on:
+      redis:
+        condition: service_healthy  # Ensures Redis is healthy before starting Flask
